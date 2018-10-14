@@ -155,8 +155,10 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\HenkilotController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProjektitController.cs" />
+    <Compile Include="Controllers\TunnitController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -205,6 +207,7 @@
       <DependentUpon>Projektittietokanta.edmx</DependentUpon>
       <LastGenOutput>Projektittietokanta.cs</LastGenOutput>
     </Content>
+    <Content Include="Images\typewriter-1248088_1280.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -243,6 +246,8 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Projektit\Index.cshtml" />
+    <Content Include="Views\Henkilot\Index.cshtml" />
+    <Content Include="Views\Tunnit\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

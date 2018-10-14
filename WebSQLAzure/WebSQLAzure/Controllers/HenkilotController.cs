@@ -8,9 +8,9 @@ using WebSQLAzure.Models;
 
 namespace WebSQLAzure.Controllers
 {
-    public class ProjektitController : Controller
+    public class HenkilotController : Controller
     {
-        // GET: Projektit
+        // GET: Henkilot
         public ActionResult Index()
         {
             return View();
@@ -22,12 +22,14 @@ namespace WebSQLAzure.Controllers
             //Tämä malli antaa enemmän mahdollisuuksia
             ProjektittietokantaEntities entities = new ProjektittietokantaEntities();
             //List<Customer> model = entities.Customers.ToList();
-            var model = (from p in entities.Projektit
+            var model = (from h in entities.Henkilot
                          select new
                          {
-                             Projektiid = p.Projektiid,
-                             Nimi = p.Nimi
-
+                             Henkiloid = h.Henkiloid,
+                             Nimi = h.Nimi,
+                             Sukunimi = h.Sukunimi,
+                             Katuosoite = h.Katuosoite,
+                             Esimies = h.Esimies
                          }).ToList();
 
             string json = JsonConvert.SerializeObject(model);
@@ -38,18 +40,21 @@ namespace WebSQLAzure.Controllers
 
             return Json(json, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GetSingleProjektit(int id)
+        public JsonResult GetSingleHenkilo(string id)
         {
 
             //Tämä malli antaa enemmän mahdollisuuksia
             ProjektittietokantaEntities entities = new ProjektittietokantaEntities();
             //List<Customer> model = entities.Customers.ToList();
-            var model = (from p in entities.Projektit
-                         where p.Projektiid == id
+            var model = (from h in entities.Henkilot
+                         where h.Henkiloid.ToString() == id
                          select new
                          {
-                             Projektiid = p.Projektiid,
-                             Nimi = p.Nimi
+                             Henkiloid = h.Henkiloid,
+                             Nimi = h.Nimi,
+                             Sukunimi = h.Sukunimi,
+                             Katuosoite = h.Katuosoite,
+                             Esimies = h.Esimies
                          }).FirstOrDefault();
 
             string json = JsonConvert.SerializeObject(model);
@@ -57,27 +62,30 @@ namespace WebSQLAzure.Controllers
 
             return Json(json, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Update(Projektit pro)
+        public ActionResult Update(Henkilot henk)
         {
             ProjektittietokantaEntities entities = new ProjektittietokantaEntities();
-            int id = pro.Projektiid;
+            int id = henk.Henkiloid;
 
             bool OK = false;
 
-            if (pro.Projektiid == 0)
+            if (henk.Henkiloid == 0)
 
             {
 
                 // kyseessä on uuden asiakkaan lisääminen, kopioidaan kentät
-                Projektit dbItem = new Projektit()
+                Henkilot dbItem = new Henkilot()
                 {
-                    //Projektiid = p.Projektiid,
-                    Nimi = pro.Nimi
+                    //Henkiloid = henk.Henkiloid,
+                    Nimi = henk.Nimi,
+                    Sukunimi = henk.Sukunimi,
+                    Katuosoite = henk.Katuosoite,
+                    Esimies = henk.Esimies
 
                 };
 
                 // tallennus tietokantaan
-                entities.Projektit.Add(dbItem);
+                entities.Henkilot.Add(dbItem);
                 entities.SaveChanges();
                 OK = true;
             }
@@ -85,14 +93,16 @@ namespace WebSQLAzure.Controllers
             {
                 // muokkaus, haetaan id:n perusteella riviä tietokannasta
 
-                Projektit dbItem = (from p in entities.Projektit
-                                    where p.Projektiid == id
-                                    select p).FirstOrDefault();
+                Henkilot dbItem = (from h in entities.Henkilot
+                                   where h.Henkiloid == id
+                                   select h).FirstOrDefault();
 
                 if (dbItem != null)
                 {
-                    dbItem.Nimi = pro.Nimi;
-
+                    dbItem.Nimi = henk.Nimi;
+                    dbItem.Sukunimi = henk.Sukunimi;
+                    dbItem.Katuosoite = henk.Katuosoite;
+                    dbItem.Esimies = henk.Esimies;
 
                     // tallennus tietokantaan
                     entities.SaveChanges();
@@ -111,14 +121,14 @@ namespace WebSQLAzure.Controllers
 
 
             bool OK = false;
-            Projektit dbItem = (from p in entities.Projektit
-                                where p.Projektiid.ToString() == id
-                                select p).FirstOrDefault();
+            Henkilot dbItem = (from h in entities.Henkilot
+                               where h.Henkiloid.ToString() == id
+                               select h).FirstOrDefault();
 
             if (dbItem != null)
             {
                 // tietokannasta poisto
-                entities.Projektit.Remove(dbItem);
+                entities.Henkilot.Remove(dbItem);
                 entities.SaveChanges();
                 OK = true;
             }
